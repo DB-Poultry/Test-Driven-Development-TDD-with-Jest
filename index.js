@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('./models/connection');
+const mongoose = require('./src/models/connection');
 
 // Routes imports
 const postsRouter = require('./routes/postRoutes');

@@ -75,6 +75,17 @@ describe('Post controller', () => {
         });
     });
 
+    // #### Pair 1: Developer A
+
+    // 1. **Write the Failing Test (RED):**
+    // - Open the test file: (Write one if not yet present).
+    // - Write a test case for a specific functionality that is currently not implemented.
+    // - Ensure the test fails by running: `npm test`
+
+    // 2. **Switch Roles:**
+    // - Commit the failing test changes: `git commit -am "Add failing test for Module A"`
+    // - Push the changes to the repository: `git push origin main`
+    // - Notify your partner (Developer B) to pull the latest changes.
     describe('update', () => {
 
     });
