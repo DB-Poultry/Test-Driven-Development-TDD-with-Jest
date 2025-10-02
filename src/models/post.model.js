@@ -17,3 +17,9 @@ exports.createPost = (obj, next) => {
         next(err, post)
     }) 
 }
+
+exports.updatePost = (postId, updateData, next) => {
+    Post.findByIdAndUpdate(postId, updateData, { new: true }, function(err, post) {
+        next(err, post);
+    });
+}

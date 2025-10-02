@@ -87,7 +87,65 @@ describe('Post controller', () => {
     // - Push the changes to the repository: `git push origin main`
     // - Notify your partner (Developer B) to pull the latest changes.
     describe('update', () => {
+        var updatePostStub;
 
+        beforeEach(() => {
+            // Setup before each test
+            res = {
+                json: sinon.spy(),
+                status: sinon.stub().returns({ end: sinon.spy() })
+            };
+            req = {
+                body: {
+                    title: 'My updated test post',
+                    content: 'Updated random content'
+                },
+                params: {
+                    postId: '507asdghajsdhjgasd'
+                }
+            };
+        });
+
+        afterEach(() => {
+            // Clean up after each test
+            if (updatePostStub) {
+                updatePostStub.restore();
+            }
+        });
+
+        it('should update the post and return the updated post object', () => {
+            // Arrange
+            expectedResult = {
+                _id: '507asdghajsdhjgasd',
+                title: 'My updated test post',
+                content: 'Updated random content',
+                author: 'stswenguser',
+                date: Date.now()
+            };
+
+            updatePostStub = sinon.stub(PostModel, 'updatePost').yields(null, expectedResult);
+            
+            // Act
+            PostController.update(req, res);
+            
+            // Assert
+            sinon.assert.calledWith(PostModel.updatePost, req.params.postId, req.body);
+            sinon.assert.calledWith(res.json, sinon.match({ title: req.body.title }));
+            sinon.assert.calledWith(res.json, sinon.match({ content: req.body.content }));
+        });
+
+        it('should return status 500 on server error', () => {
+            // Arrange
+            updatePostStub = sinon.stub(PostModel, 'updatePost').yields(error);
+            
+            // Act
+            PostController.update(req, res);
+            
+            // Assert
+            sinon.assert.calledWith(PostModel.updatePost, req.params.postId, req.body);
+            sinon.assert.calledWith(res.status, 500);
+            sinon.assert.calledOnce(res.status(500).end);
+        });
     });
 
     describe('findPost', () => {
